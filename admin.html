@@ -57,10 +57,8 @@ async function load() {
     entries.sort((a, b) => (b[1].timestamp || 0) - (a[1].timestamp || 0));
 
     const families = entries.length;
-    const guests = entries.reduce((sum, [, r]) => sum + 1 + (Number(r.companions) || 0), 0);
     stats.innerHTML = `
       <div class="stat"><div class="n">${families}</div><div class="l">Familias confirmadas</div></div>
-      <div class="stat"><div class="n">${guests}</div><div class="l">Invitados totales</div></div>
     `;
 
     if (entries.length === 0) {
@@ -71,8 +69,6 @@ async function load() {
     const rows = entries.map(([key, r]) => `
       <tr>
         <td>${(r.name || '—').replace(/</g, '&lt;')}</td>
-        <td>${Number(r.companions) || 0}</td>
-        <td>${1 + (Number(r.companions) || 0)}</td>
         <td>${fmtDate(r.timestamp)}</td>
         <td><button class="del" onclick="del('${key}')">Eliminar</button></td>
       </tr>
@@ -80,7 +76,7 @@ async function load() {
 
     content.innerHTML = `
       <table>
-        <thead><tr><th>Nombre</th><th>Acompañantes</th><th>Total</th><th>Confirmó</th><th></th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Confirmó</th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     `;
